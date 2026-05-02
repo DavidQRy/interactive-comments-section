@@ -3,6 +3,7 @@ import { ButtonDelete } from '@components/ui/button-delete'
 import { ButtonEdit } from '@components/ui/button-edit'
 import { ButtonReply } from '@components/ui/button-reply'
 import { CommentInput } from '@components/ui/comment-input'
+import { UserTag } from '@components/ui/user-tag'
 
 export const Comments = () => {
   return (
@@ -29,6 +30,7 @@ export const Comments = () => {
         }}
       />
       <CommentInput></CommentInput>
+      <UserTag />
     </div>
   )
 }
