@@ -3,6 +3,7 @@ import { coverageConfigDefaults, defineConfig } from 'vitest/config'
 import react, { reactCompilerPreset } from '@vitejs/plugin-react'
 import babel from '@rolldown/plugin-babel'
 import { loadEnv } from 'vite'
+import paths from 'vite-tsconfig-paths'
 import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
@@ -18,6 +19,7 @@ export default defineConfig(({ mode }) => {
     plugins: [
       react(),
       tailwindcss(),
+      paths(),
       babel({ presets: [reactCompilerPreset()] }),
     ],
     resolve: { tsconfigPaths: true },
