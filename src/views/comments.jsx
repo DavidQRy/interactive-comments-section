@@ -1,6 +1,7 @@
 import { ButtonAction } from '@components/ui/button-action'
 import { ButtonDelete } from '@components/ui/button-delete'
 import { ButtonEdit } from '@components/ui/button-edit'
+import { ButtonReply } from '@components/ui/button-reply'
 
 export const Comments = () => {
   return (
@@ -19,6 +20,11 @@ export const Comments = () => {
       <ButtonEdit
         onClick={() => {
           console.log('edit...')
+        }}
+      />
+      <ButtonReply
+        onClick={() => {
+          console.log('reply...')
         }}
       />
     </div>
