@@ -1,53 +1,48 @@
-import { ButtonAction } from '@components/ui/button-action'
-import { ButtonDelete } from '@components/ui/button-delete'
-import { ButtonEdit } from '@components/ui/button-edit'
-import { ButtonReply } from '@components/ui/button-reply'
-import { CommentInput } from '@components/ui/comment-input'
-import { ScoreCounter } from '@components/ui/score-counter'
-import { UserTag } from '@components/ui/user-tag'
+import { CommentCard } from '@components/comment-card'
+import { ReplyList } from '@components/reply-list'
+import data from '@data/data.json'
 import { useState } from 'react'
 
 export const Comments = () => {
-  const [score, setScore] = useState(0)
+  const [comments, setComments] = useState(data.comments)
+  const { currentUser } = data
 
-  const handleUpvote = () => {
-    setScore((prev) => prev + 1)
+  const handleVote = (id, delta) => {
+    const updateVote = (list) =>
+      list.map((item) => {
+        if (item.id === id) {
+          return { ...item, score: item.score + delta }
+        }
+        if (item.replies?.length > 0) {
+          return { ...item, replies: updateVote(item.replies) }
+        }
+        return item
+      })
+    setComments(updateVote(comments))
   }
 
-  const handleDownvote = () => {
-    setScore((prev) => prev - 1)
-  }
   return (
-    <div>
-      <ButtonAction
-        label="SEND"
-        onClick={() => {
-          console.log('clicked')
-        }}
-      />
-      <ButtonDelete
-        onClick={() => {
-          console.log('delete...')
-        }}
-      />
-      <ButtonEdit
-        onClick={() => {
-          console.log('edit...')
-        }}
-      />
-      <ButtonReply
-        onClick={() => {
-          console.log('reply...')
-        }}
-      />
-      <CommentInput></CommentInput>
-      <UserTag />
-
-      <ScoreCounter
-        onUpvote={handleUpvote}
-        onDownvote={handleDownvote}
-        score={score}
-      />
-    </div>
+    <section className="max-w-3xl mx-auto py-8 px-4 bg-very-light-gray min-h-screen">
+      {comments.map((comment) => (
+        <div key={comment.id} className="flex flex-col">
+          <CommentCard
+            comment={comment}
+            currentUser={currentUser}
+            onUpvote={() => handleVote(comment.id, 1)}
+            onDownvote={() => handleVote(comment.id, -1)}
+            onReply={() => console.log('Reply to', comment.id)}
+            onDelete={() => console.log('Delete', comment.id)}
+            onEdit={() => console.log('Edit', comment.id)}
+          />
+          {comment.replies.length > 0 && (
+            <ReplyList
+              replies={comment.replies}
+              currentUser={currentUser}
+              handleVote={handleVote}
+            />
+          )}
+        </div>
+      ))}
+    </section>
   )
 }
