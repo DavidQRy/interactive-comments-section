@@ -36,7 +36,7 @@ export const AddComment = ({ currentUser, buttonText = 'SEND', onSend }) => {
         />
       </div>
       <div className="hidden md:block">
-        <ButtonAction label={buttonText} type="submit" />
+        <ButtonAction label={buttonText} type="submit" onClick={handleSubmit} />
       </div>
       <div className="flex justify-between items-center w-full md:hidden mt-2">
         <Avatar
@@ -44,7 +44,7 @@ export const AddComment = ({ currentUser, buttonText = 'SEND', onSend }) => {
           username={currentUser.username}
           size="md"
         />
-        <ButtonAction label={buttonText} type="submit" />
+        <ButtonAction label={buttonText} type="submit" onClick={handleSubmit} />
       </div>
     </form>
   )
