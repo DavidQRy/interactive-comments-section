@@ -2,38 +2,21 @@ import { AddComment } from '@components/add-comment'
 import { CommentCard } from '@components/comment-card'
 import { ReplyList } from '@components/reply-list'
 import data from '@data/data.json'
-import { useState } from 'react'
+import { useComments } from '@hooks/useComments'
 
 export const Comments = () => {
-  const [comments, setComments] = useState(data.comments)
   const { currentUser } = data
-
-  const handleVote = (id, delta) => {
-    const updateVote = (list) =>
-      list.map((item) => {
-        if (item.id === id) {
-          return { ...item, score: item.score + delta }
-        }
-        if (item.replies?.length > 0) {
-          return { ...item, replies: updateVote(item.replies) }
-        }
-        return item
-      })
-    setComments(updateVote(comments))
-  }
+  const { comments, handleVote, handleAdd } = useComments()
 
   return (
     <section className="max-w-3xl mx-auto py-8 px-4 bg-very-light-gray min-h-screen flex flex-col gap-4">
       {comments.map((comment) => (
-        <div key={comment.id} className="flex flex-col">
+        <div key={comment.id}>
           <CommentCard
             comment={comment}
             currentUser={currentUser}
             onUpvote={() => handleVote(comment.id, 1)}
             onDownvote={() => handleVote(comment.id, -1)}
-            onReply={() => console.log('Reply to', comment.id)}
-            onDelete={() => console.log('Delete', comment.id)}
-            onEdit={() => console.log('Edit', comment.id)}
           />
           {comment.replies.length > 0 && (
             <ReplyList
@@ -46,7 +29,7 @@ export const Comments = () => {
       ))}
       <AddComment
         currentUser={currentUser}
-        onSend={(text) => console.log('Nuevo comentario:', text)}
+        onSend={(txt) => handleAdd(txt, currentUser)}
       />
     </section>
   )
