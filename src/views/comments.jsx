@@ -1,3 +1,4 @@
+import { AddComment } from '@components/add-comment'
 import { CommentCard } from '@components/comment-card'
 import { ReplyList } from '@components/reply-list'
 import data from '@data/data.json'
@@ -22,7 +23,7 @@ export const Comments = () => {
   }
 
   return (
-    <section className="max-w-3xl mx-auto py-8 px-4 bg-very-light-gray min-h-screen">
+    <section className="max-w-3xl mx-auto py-8 px-4 bg-very-light-gray min-h-screen flex flex-col gap-4">
       {comments.map((comment) => (
         <div key={comment.id} className="flex flex-col">
           <CommentCard
@@ -43,6 +44,10 @@ export const Comments = () => {
           )}
         </div>
       ))}
+      <AddComment
+        currentUser={currentUser}
+        onSend={(text) => console.log('Nuevo comentario:', text)}
+      />
     </section>
   )
 }
