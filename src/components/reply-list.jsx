@@ -1,6 +1,11 @@
 import { CommentCard } from '@components/comment-card'
 
-export const ReplyList = ({ replies, currentUser, handleVote }) => (
+export const ReplyList = ({
+  replies,
+  currentUser,
+  handleVote,
+  onDeleteReply,
+}) => (
   <div className="flex flex-col border-l-2 border-slate-200 ml-4 md:ml-10 pl-4 md:pl-10">
     {replies.map((reply) => (
       <CommentCard
@@ -10,7 +15,7 @@ export const ReplyList = ({ replies, currentUser, handleVote }) => (
         onUpvote={() => handleVote(reply.id, 1)}
         onDownvote={() => handleVote(reply.id, -1)}
         onReply={() => console.log('Reply to', reply.id)}
-        onDelete={() => console.log('Delete', reply.id)}
+        onDelete={() => onDeleteReply(reply.id)}
         onEdit={() => console.log('Edit', reply.id)}
       />
     ))}
