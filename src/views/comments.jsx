@@ -14,6 +14,7 @@ export const Comments = () => {
     confirmDelete,
     setDeletingId,
     deletingId,
+    handleEdit,
   } = useComments()
 
   return (
@@ -26,6 +27,7 @@ export const Comments = () => {
             onUpvote={() => handleVote(comment.id, 1)}
             onDownvote={() => handleVote(comment.id, -1)}
             onDelete={() => setDeletingId(comment.id)}
+            onEdit={handleEdit}
           />
           {comment.replies.length > 0 && (
             <ReplyList
@@ -33,6 +35,7 @@ export const Comments = () => {
               currentUser={currentUser}
               handleVote={handleVote}
               onDeleteReply={(id) => setDeletingId(id)}
+              onEditReply={handleEdit}
             />
           )}
         </div>

@@ -18,3 +18,17 @@ export const removeCommentFromList = (list, targetId) =>
         ? removeCommentFromList(item.replies, targetId)
         : [],
     }))
+
+export const updateCommentInList = (list, id, newContent) =>
+  list.map((item) => {
+    if (item.id === id) {
+      return { ...item, content: newContent }
+    }
+    if (item.replies?.length > 0) {
+      return {
+        ...item,
+        replies: updateCommentInList(item.replies, id, newContent),
+      }
+    }
+    return item
+  })

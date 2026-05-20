@@ -1,4 +1,8 @@
-import { removeCommentFromList, updateVoteInList } from '@utils/comments'
+import {
+  removeCommentFromList,
+  updateCommentInList,
+  updateVoteInList,
+} from '@utils/comments'
 import data from '@data/data.json'
 import { useState } from 'react'
 
@@ -29,6 +33,10 @@ export const useComments = () => {
     setDeletingId(null)
   }
 
+  const handleEdit = (id, newContent) => {
+    setComments((prev) => updateCommentInList(prev, id, newContent))
+  }
+
   return {
     comments,
     handleVote,
@@ -36,5 +44,6 @@ export const useComments = () => {
     confirmDelete,
     deletingId,
     setDeletingId,
+    handleEdit,
   }
 }
