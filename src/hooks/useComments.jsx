@@ -1,26 +1,6 @@
+import { removeCommentFromList, updateVoteInList } from '@utils/comments'
 import data from '@data/data.json'
 import { useState } from 'react'
-
-const updateVoteInList = (list, id, delta) =>
-  list.map((item) => {
-    if (item.id === id) {
-      return { ...item, score: item.score + delta }
-    }
-    if (item.replies?.length > 0) {
-      return { ...item, replies: updateVoteInList(item.replies, id, delta) }
-    }
-    return item
-  })
-
-const removeCommentFromList = (list, targetId) =>
-  list
-    .filter((item) => item.id !== targetId)
-    .map((item) => ({
-      ...item,
-      replies: item.replies
-        ? removeCommentFromList(item.replies, targetId)
-        : [],
-    }))
 
 export const useComments = () => {
   const [comments, setComments] = useState(data.comments)
